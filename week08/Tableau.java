@@ -48,17 +48,8 @@ public class Tableau {
                 newbelow.above = i;
                 return;
             }
-            if (i.below.value > x) {
-                if (i.below.below != null) {
-                    i = i.below.below;
-                }
-                int temp = i.below.value;
-                i.below.value = x;
-                i = i.below;
-                value = temp;
-            } else {
-                i = i.below;
-            }
+            i=i.below;
+            addToRow(i,x);
         }
     }
 
