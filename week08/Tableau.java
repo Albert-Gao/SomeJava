@@ -15,23 +15,10 @@ public class Tableau {
      */
     private Cell smallest = null;
 
-    private int pumpValue;
-
     /**
      * Adds the given value to this tableau.
      *
      * @param value the value to be added to this tableau.
-     */
-    /*
-    This method takes care of the case where the tableau is empty,
-    you must complete the implementation by adding the other cases.
-    You can call the addToRow method to add the value to the first row.
-
-    If addToRow() returns null there is nothing more to do.
-    If it returns a value then that value must be inserted into the row below.
-    If the row below is empty then a new cell should be added as the only item in that row,
-
-    otherwise just call addToRow again to add the returned value to the row below.
      */
     public void addValue(Integer value) {
         if (smallest == null) {
@@ -87,6 +74,11 @@ public class Tableau {
         return null;
     }
 
+    /**
+     * The method deals with the relation of cells.
+     * @param curr  the cell to start.
+     * @param left the cell next to the curr.
+     */
     private void addRelation(Cell curr, Cell left) {
         curr.right = left;
         left.left = curr;
