@@ -61,30 +61,12 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean rowLengthsDecrease(int[][] t) {
-        //how many rows are there
-        int rowCounts = t.length;
-
-        //create an array to store the length of each row
-        int[] inRowNum = new int[rowCounts];
-
-        //counting the array row by row and store them in inRowNum []
-        for (int i = 0; i < rowCounts; i++) {
-            inRowNum[i] = t[i].length;
-        }
-
-        //check if they are decreasing
-        boolean mark = true;
-        myLoop:
-        for (int i = 0; i < inRowNum.length; i++) {
-            //ensure never out of index
-            if (i + 1 < inRowNum.length) {
-                mark = inRowNum[i] >= inRowNum[i + 1] ? true : false;
-                if (!mark) {
-                    break myLoop;
-                }
+        for (int i = 0; i < t.length - 1; i++) {
+            if (t[i].length < t[i + 1].length) {
+                return false;
             }
         }
-        return mark;
+        return true;
     }
 
     /**
@@ -95,19 +77,17 @@ public class TableauApp {
      */
     public static boolean rowValuesIncrease(int[][] t) {
         //checking them row by row, with each row, value by value
-        boolean mark = true;
+        boolean foundError = true;
         myLoop:
-        for (int i = 0; i < t.length; i++) {
-            for (int j = 0; j < t[i].length; j++) {
-                if (j + 1 < t[i].length) {
-                    mark = t[i][j] < t[i][j + 1] ? true : false;
-                    if (!mark) {
-                        break myLoop;
-                    }
+        for (int[] row : t) {
+            for (int i = 1; i < row.length; i++) {
+                foundError = row[i - 1] > row[i] ? true : false;
+                if (foundError) {
+                    break myLoop;
                 }
             }
         }
-        return mark;
+        return !foundError;
     }
 
     /**
@@ -117,39 +97,13 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean columnValuesIncrease(int[][] t) {
-        //How many columns are there?
-        int columnCounts = t[0].length;
-        int rowCounts = t.length;
-
-        //create a rectangle matrix, fill 0 when outIndex
-        int[][] addZero = new int[rowCounts][columnCounts];
-        for (int row = 0; row < rowCounts; row++) {
-            for (int col = 0; col < t[0].length; col++) {
-                try {
-                    addZero[row][col] = t[row][col];
-                } catch (IndexOutOfBoundsException e) {
-                    addZero[row][col] = 0;
-                }
+        for (int i = 0; i < t.length - 1; i++) {
+            for (int j = 0; j < Math.min(t[i].length, t[i + 1].length); j++) {
+                if (t[i][j] > t[i + 1][j])
+                    return false;
             }
         }
-
-        //Let's check the damn column!
-        boolean mark = true;
-        myLoop:
-        for (int col = 0; col < columnCounts; col++) {
-            for (int row = 0; row < rowCounts; row++) {
-                if (row + 1 < rowCounts && col + 1 < columnCounts) {
-                    if (addZero[row + 1][col] != 0) {
-                        mark = addZero[row][col] <
-                                addZero[row + 1][col] ? true : false;
-                    }
-                }
-                if (!mark) {
-                    break myLoop;
-                }
-            }
-        }
-        return mark;
+        return true;
     }
 
     /**
@@ -159,43 +113,27 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean isSetOf1toN(int[][] t) {
-        //how many rows are there
-        int rowCounts = t.length;
-
-        //counting the all items
-        int allItemsCounts = 0;
-        for (int i = 0; i < rowCounts; i++) {
-            allItemsCounts += t[i].length;
-        }
-
         //extract all the values from the 2d array
-        ArrayList<Integer> tempList = new ArrayList<Integer>();
-        for (int i = 0; i < t.length; i++) {
-            for (int j = 0; j < t[i].length; j++) {
-                tempList.add(t[i][j]);
+        ArrayList<Integer> tempList = new ArrayList<>();
+        for (int[] row : t) {
+            for (int value : row) {
+                tempList.add(value);
             }
         }
 
         //Sort the list
         Collections.sort(tempList);
 
-        //get the last value of the list
-        int last = tempList.get(tempList.size() - 1);
-
-        //check if it is equal to allItemsCounts;
-        boolean mark = last == allItemsCounts ? true : false;
-
-        if (!mark) {
-            return mark;
-        }
+        boolean mark = true;
 
         //check if the value is increasing;
-        for (int i = 0; i < tempList.size(); i++) {
-            if (i + 1 != tempList.size()) {
-                mark = tempList.get(i) != tempList.get(i + 1) ? true : false;
+        for (int i = 1; i < tempList.size(); i++) {
+            int result = tempList.get(i) - tempList.get(i - 1);
+            mark = result == 1 ? true : false;
+            if (!mark) {
+                break;
             }
         }
-
         return mark;
     }
 }
