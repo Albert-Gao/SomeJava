@@ -80,15 +80,10 @@ public class LinkedBST<T extends Comparable<T>> {
      * @return the height of this tree.
      */
     public int height() {
-    }
-
-    /**
-     * Returns the height of this tree.
-     * @param node the node for this loop
-     * @return the height of this tree.
-     */
-    private int height(LinkedBST<T> node) {
-
+        if (left == null || right == null) {
+            return 0;
+        }
+        return 1 + Math.max(left.height(), right.height());
     }
 
     /**
@@ -100,11 +95,11 @@ public class LinkedBST<T extends Comparable<T>> {
     public boolean search(T target) {
         return search(this, target);
     }
-    
+
     /**
      * Searches for the given target within this tree.
      *
-     * @param node the node for this loop
+     * @param node   the node for this loop
      * @param target the value need to search
      * @return true if target is found, otherwise false.
      */
@@ -123,17 +118,21 @@ public class LinkedBST<T extends Comparable<T>> {
      * @return the size of this BST.
      */
     public int size() {
-
+        if (root == null) return 0;
+        return size(this);
     }
 
     /**
      * Returns the size of this BST.
      *
-     * @param node node for this loop    
+     * @param node node for this loop
      * @return the size of this BST.
      */
     private int size(LinkedBST<T> node) {
-
+        if (node == null) {
+            return 0;
+        }
+        return 1 + size(node.left) + size(node.right);
     }
 
     /**
@@ -145,18 +144,27 @@ public class LinkedBST<T extends Comparable<T>> {
      * parameter <code>low</code>.
      */
     public int sizeAbove(T low) {
-
+        ArrayList<T> list = new ArrayList<>();
+        sizeAbove(this, low, list);
+        return list.size();
     }
 
     /**
      * Recursive version of the method above.
      *
-     * @param node the node for this loop.
-     * @param low the value need to find.
+     * @param node      the node for this loop.
+     * @param low       the value need to find.
      * @param foundList the list to add the found value.
      */
     private void sizeAbove(LinkedBST<T> node, T low, ArrayList<T> foundList) {
-
+        if (node == null || node.root == null) {
+            return;
+        }
+        if (node.root.compareTo(low) > 0) {
+            foundList.add(node.root);
+        }
+        sizeAbove(node.left, low, foundList);
+        sizeAbove(node.right, low, foundList);
     }
 
     /**
@@ -168,18 +176,27 @@ public class LinkedBST<T extends Comparable<T>> {
      * <code>high</code>.
      */
     public int sizeBelow(T high) {
-
+        ArrayList<T> list = new ArrayList<>();
+        sizeBelow(this, high, list);
+        return list.size();
     }
 
     /**
      * Recursive version of the method above.
      *
-     * @param node the node for this loop.
-     * @param high the value need to find.
+     * @param node      the node for this loop.
+     * @param high      the value need to find.
      * @param foundList the list to add the found value.
      */
     private void sizeBelow(LinkedBST<T> node, T high, ArrayList<T> foundList) {
-
+        if (node == null || node.root == null) {
+            return;
+        }
+        if (node.root.compareTo(high) < 0) {
+            foundList.add(node.root);
+        }
+        sizeBelow(node.left, high, foundList);
+        sizeBelow(node.right, high, foundList);
     }
 
     /**
@@ -193,19 +210,27 @@ public class LinkedBST<T extends Comparable<T>> {
      * high (exclusive).
      */
     public int sizeBetween(T low, T high) {
+        ArrayList<T> list = new ArrayList<>();
+        sizeBetween(this, low, high, list);
+        return list.size();
 
     }
 
     /**
      * Recursive version of the method above.
      *
-     * @param node the node for this loop.
-     * @param low the value need to find.
-     * @param high the value need to find.
+     * @param node      the node for this loop.
+     * @param low       the value need to find.
+     * @param high      the value need to find.
      * @param foundList the list to add the found value.
      */
     private void sizeBetween(LinkedBST<T> node, T low, T high, ArrayList<T> foundList) {
-
+        if (node == null || node.root == null) return;
+        if (node.root.compareTo(low)>0&&node.root.compareTo(high)<0){
+            foundList.add(node.root);
+        }
+        sizeBetween(node.left,low,high,foundList);
+        sizeBetween(node.right,low,high,foundList);
     }
 
     /**
@@ -222,17 +247,17 @@ public class LinkedBST<T extends Comparable<T>> {
      * The direction used when creating a representation of this tree.
      */
     enum Direction {
-       /**
-        * left.
-        */
+        /**
+         * left.
+         */
         LEFT,
-       /**
-        * right.
-        */
+        /**
+         * right.
+         */
         RIGHT,
-       /**
-        * no.
-        */
+        /**
+         * no.
+         */
         NO
     }
 

@@ -21,7 +21,23 @@ public class Tableau {
      * @param value the value to be added to this tableau.
      */
     public void addValue(Integer value) {
+        if (smallest == null) {
+            smallest = new Cell(value);
+            return;
+        }
+        Cell cell = smallest;
+        Integer bumped = addToRow(cell, value);
 
+        while (bumped != null) {
+            if (cell.below == null) {
+                Cell newBelow = new Cell(value);
+                cell.below = newBelow;
+                newBelow.above = cell;
+                return;
+            }
+            cell = cell.below;
+            bumped = addToRow(cell, bumped);
+        }
     }
 
     /**
@@ -36,7 +52,23 @@ public class Tableau {
      * end of the row.
      */
     protected Integer addToRow(Cell curr, int value) {
-
+        Cell start = curr;
+        while (start != null) {
+            if (start.value > value) {
+                Integer temp = start.value;
+                start.value = value;
+                return temp;
+            } else {
+                if (start.right != null) {
+                    start = start.right;
+                    continue;
+                }
+                Cell newRight = new Cell(value);
+                addRelation(start, newRight);
+                return null;
+            }
+        }
+        return null;
     }
 
     /**
@@ -46,7 +78,20 @@ public class Tableau {
      * @param left the cell next to the curr.
      */
     private void addRelation(Cell curr, Cell left) {
-
+        curr.right = left;
+        left.left = curr;
+        if (curr.above != null) {
+            if (curr.above.right != null) {
+                curr.above.right.below = left;
+                left.above = curr.above.right;
+            }
+        }
+        if (curr.below != null) {
+            if (curr.below.right != null) {
+                curr.below.right.above = left;
+                left.below = curr.below.right;
+            }
+        }
     }
 
     /**

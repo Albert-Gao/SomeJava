@@ -46,8 +46,15 @@ public class Tree<T> {
      * @return the number of the size
      */
     public int size() {
-
-
+        if (children == null) {
+            return 0;
+        } else {
+            int size = 1;
+            for (Tree<T> node : children) {
+                size += node.size();
+            }
+            return size;
+        }
     }
 
     /**
@@ -56,7 +63,13 @@ public class Tree<T> {
      * @return the result
      */
     public int maxDegree() {
-
+        int size = children.size();
+        for (Tree<T> node : children) {
+            if (node.maxDegree() > size) {
+                size = node.maxDegree();
+            }
+        }
+        return size;
     }
 
     /**
@@ -93,7 +106,12 @@ public class Tree<T> {
      * @return the result
      */
     public List<T> postOrder() {
-
+        ArrayList<T> y = new ArrayList<>();
+        for (Tree<T> node : children) {
+            y.addAll(node.postOrder());
+        }
+        y.add(rootValue);
+        return y;
     }
 
     /**
@@ -114,7 +132,12 @@ public class Tree<T> {
      * @return the result
      */
     public String toIndentedString() {
-
+        StringBuilder finalString = new StringBuilder();
+        LinkedList<String> list = new LinkedList<>();
+        iHelper(0,list,children);
+        finalString.append(levelToIndent(0)+rootValue+"\n");
+        list.forEach(finalString::append);
+        return finalString.toString();
     }
 
     /**
@@ -125,7 +148,16 @@ public class Tree<T> {
      * @param kid   subtree
      */
     private void iHelper(int lvl, LinkedList<String> ilist, List<Tree<T>> kid) {
-
+        if (kid==null){
+            return;
+        }
+        lvl++;
+        for (Tree<T> node:kid){
+            ilist.add(levelToIndent(lvl)+node.rootValue.toString()+"\n");
+            if (node.children!=null){
+                iHelper(lvl,ilist,node.children);
+            }
+        }
     }
 
     /**
@@ -135,7 +167,11 @@ public class Tree<T> {
      * @return the computed spaces
      */
     private String levelToIndent(int level) {
-
+        String blank="";
+        for (int i=0;i<level;i++){
+            blank+="  ";
+        }
+        return blank;
     }
 
     /**
