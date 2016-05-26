@@ -61,13 +61,13 @@ public class LinkedBST<T extends Comparable<T>> {
         int comparison = root.compareTo(element);
         if (comparison > 0) {
             if (left == null) {
-                left = new LinkedBST<T>(element);
+                left = new LinkedBST<>(element);
             } else {
                 left.add(element);
             }
         } else if (comparison < 0) {
             if (right == null) {
-                right = new LinkedBST<T>(element);
+                right = new LinkedBST<>(element);
             } else {
                 right.add(element);
             }

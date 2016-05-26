@@ -38,7 +38,7 @@ public class Tableau {
             }
             i = i.below;
             Integer y = addToRow(i, x);
-            x=y;
+            x = y;
         }
 
     }
@@ -76,7 +76,8 @@ public class Tableau {
 
     /**
      * The method deals with the relation of cells.
-     * @param curr  the cell to start.
+     *
+     * @param curr the cell to start.
      * @param left the cell next to the curr.
      */
     private void addRelation(Cell curr, Cell left) {

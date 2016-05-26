@@ -1,6 +1,8 @@
 package week10;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Skeleton of the recursive implementation of a general tree.
@@ -44,23 +46,15 @@ public class Tree<T> {
      * @return the number of the size
      */
     public int size() {
-        return 1 + size(0);
-    }
-
-    /**
-     * the helper method of size().
-     *
-     * @param result the result from each recursion
-     * @return the final value
-     */
-    private int size(int result) {
-        if (children != null) {
-            result += children.size();
-            for (Tree<T> t : children) {
-                result += t.size(0);
+        int size = 1;
+        if (this.children.size() == 0) {
+            return 1;
+        } else {
+            for (Tree<T> node : this.children) {
+                size += node.size();
             }
+            return size;
         }
-        return result;
     }
 
     /**
@@ -70,9 +64,9 @@ public class Tree<T> {
      */
     public int maxDegree() {
         int degree = this.children.size();
-        for (int i = 0; i < this.children.size(); i++) {
-            if (this.children.get(i).maxDegree() > degree) {
-                degree = this.children.get(i).maxDegree();
+        for (Tree<T> node : this.children) {
+            if (node.maxDegree() > degree) {
+                degree = node.maxDegree();
             }
         }
         return degree;
@@ -116,8 +110,8 @@ public class Tree<T> {
         if (this.children.size() == 0) {
             nodes.add(this.rootValue);
         } else {
-            for (int i = 0; i < this.children.size(); i++) {
-                nodes.addAll(this.children.get(i).postOrder());
+            for (Tree<T> node : this.children) {
+                nodes.addAll(node.postOrder());
             }
             nodes.add(this.rootValue);
         }
@@ -143,12 +137,19 @@ public class Tree<T> {
      */
     public String toIndentedString() {
         StringBuilder finalString = new StringBuilder();
+        //create a list
         LinkedList<String> orderList = new LinkedList<>();
+
+        //fill the list with the contents in the tree,except the root
         iHelper(0, orderList, children);
+
+        //add the root of the tree as the first line of final String
         finalString.append(levelToIndent(0) + rootValue + "\n");
-        for (String s : orderList) {
-            finalString.append(s);
-        }
+
+        //add each item of the list to the StringBuilder
+        orderList.forEach(finalString::append);
+
+        //return the result
         return finalString.toString();
     }
 

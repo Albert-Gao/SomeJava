@@ -7,7 +7,7 @@ import static org.testng.Assert.assertEquals;
 
 public class TreeTest {
 
-    private Tree<String> rootTree, meatTree ;
+    private Tree<String> rootTree, meatTree;
 
     @BeforeMethod
     public void setUp() {
@@ -32,6 +32,7 @@ public class TreeTest {
         addChildren(rootTree, "fruit vegetable");
         assertEquals(rootTree.toString(), "food [meat, fruit, vegetable]");
     }
+
     @Test
     public void addDeepChildren() {
         rootTree.add(meatTree);
