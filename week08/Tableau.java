@@ -26,21 +26,19 @@ public class Tableau {
             return;
         }
 
-        Cell i = smallest;
-        Integer x = addToRow(i, value);
+        Cell cell = smallest;
+        Integer bumped = addToRow(cell, value);
 
-        while (x != null) {
-            if (i.below == null) {
-                Cell newbelow = new Cell(x);
-                i.below = newbelow;
-                newbelow.above = i;
+        while (bumped != null) {
+            if (cell.below == null) {
+                Cell newBelow = new Cell(bumped);
+                cell.below = newBelow;
+                newBelow.above = cell;
                 return;
             }
-            i = i.below;
-            Integer y = addToRow(i, x);
-            x = y;
+            cell = cell.below;
+            bumped = addToRow(cell, bumped);
         }
-
     }
 
     /**
@@ -66,8 +64,8 @@ public class Tableau {
                     start = start.right;
                     continue;
                 }
-                Cell newone = new Cell(value);
-                this.addRelation(start, newone);
+                Cell newOne = new Cell(value);
+                this.addRelation(start, newOne);
                 return null;
             }
         }

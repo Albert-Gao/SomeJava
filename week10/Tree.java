@@ -46,10 +46,10 @@ public class Tree<T> {
      * @return the number of the size
      */
     public int size() {
-        int size = 1;
         if (this.children.size() == 0) {
             return 1;
         } else {
+            int size = 1;
             for (Tree<T> node : this.children) {
                 size += node.size();
             }
@@ -78,7 +78,7 @@ public class Tree<T> {
      * @param child the subtree need to add
      */
     public void add(Tree<T> child) {
-        children.add(child);
+        this.children.add(child);
     }
 
     /**
