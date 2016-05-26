@@ -61,12 +61,7 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean rowLengthsDecrease(int[][] t) {
-        for (int i = 0; i < t.length - 1; i++) {
-            if (t[i].length < t[i + 1].length) {
-                return false;
-            }
-        }
-        return true;
+
     }
 
     /**
@@ -76,18 +71,7 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean rowValuesIncrease(int[][] t) {
-        //checking them row by row, with each row, value by value
-        boolean foundError = true;
-        myLoop:
-        for (int[] row : t) {
-            for (int i = 1; i < row.length; i++) {
-                foundError = row[i - 1] > row[i] ? true : false;
-                if (foundError) {
-                    break myLoop;
-                }
-            }
-        }
-        return !foundError;
+
     }
 
     /**
@@ -97,13 +81,7 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean columnValuesIncrease(int[][] t) {
-        for (int i = 0; i < t.length - 1; i++) {
-            for (int j = 0; j < Math.min(t[i].length, t[i + 1].length); j++) {
-                if (t[i][j] > t[i + 1][j])
-                    return false;
-            }
-        }
-        return true;
+
     }
 
     /**
@@ -113,27 +91,6 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean isSetOf1toN(int[][] t) {
-        //extract all the values from the 2d array
-        ArrayList<Integer> tempList = new ArrayList<>();
-        for (int[] row : t) {
-            for (int value : row) {
-                tempList.add(value);
-            }
-        }
 
-        //Sort the list
-        Collections.sort(tempList);
-
-        boolean mark = true;
-
-        //check if the value is increasing;
-        for (int i = 1; i < tempList.size(); i++) {
-            int result = tempList.get(i) - tempList.get(i - 1);
-            mark = result == 1 ? true : false;
-            if (!mark) {
-                break;
-            }
-        }
-        return mark;
     }
 }

@@ -46,15 +46,8 @@ public class Tree<T> {
      * @return the number of the size
      */
     public int size() {
-        if (this.children.size() == 0) {
-            return 1;
-        } else {
-            int size = 1;
-            for (Tree<T> node : this.children) {
-                size += node.size();
-            }
-            return size;
-        }
+
+
     }
 
     /**
@@ -63,13 +56,7 @@ public class Tree<T> {
      * @return the result
      */
     public int maxDegree() {
-        int degree = this.children.size();
-        for (Tree<T> node : this.children) {
-            if (node.maxDegree() > degree) {
-                degree = node.maxDegree();
-            }
-        }
-        return degree;
+
     }
 
     /**
@@ -106,16 +93,7 @@ public class Tree<T> {
      * @return the result
      */
     public List<T> postOrder() {
-        ArrayList<T> nodes = new ArrayList<>();
-        if (this.children.size() == 0) {
-            nodes.add(this.rootValue);
-        } else {
-            for (Tree<T> node : this.children) {
-                nodes.addAll(node.postOrder());
-            }
-            nodes.add(this.rootValue);
-        }
-        return nodes;
+
     }
 
     /**
@@ -136,21 +114,7 @@ public class Tree<T> {
      * @return the result
      */
     public String toIndentedString() {
-        StringBuilder finalString = new StringBuilder();
-        //create a list
-        LinkedList<String> orderList = new LinkedList<>();
 
-        //fill the list with the contents in the tree,except the root
-        iHelper(0, orderList, children);
-
-        //add the root of the tree as the first line of final String
-        finalString.append(levelToIndent(0) + rootValue + "\n");
-
-        //add each item of the list to the StringBuilder
-        orderList.forEach(finalString::append);
-
-        //return the result
-        return finalString.toString();
     }
 
     /**
@@ -161,15 +125,7 @@ public class Tree<T> {
      * @param kid   subtree
      */
     private void iHelper(int lvl, LinkedList<String> ilist, List<Tree<T>> kid) {
-        if (kid != null) {
-            lvl++;
-            for (Tree<T> t : kid) {
-                ilist.add(levelToIndent(lvl) + t.rootValue.toString() + "\n");
-                if (t.children != null) {
-                    iHelper(lvl, ilist, t.children);
-                }
-            }
-        }
+
     }
 
     /**
@@ -179,11 +135,7 @@ public class Tree<T> {
      * @return the computed spaces
      */
     private String levelToIndent(int level) {
-        String value = "";
-        for (int i = 0; i < level; i++) {
-            value += "  ";
-        }
-        return value;
+
     }
 
     /**
