@@ -1,8 +1,5 @@
 package week05;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 /**
  * Skeleton code for an array based implementation of Young's tableau.
  *
@@ -61,11 +58,7 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean rowLengthsDecrease(int[][] t) {
-        for (int i = 1; i < t.length; i++) {
-            if (t[i].length - t[i - 1].length > 0) {
-                return false;
-            }
-        }
+
         return true;
     }
 
@@ -76,13 +69,7 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean rowValuesIncrease(int[][] t) {
-        for (int[] row : t) {
-            for (int i = 1; i < row.length; i++) {
-                if (row[i] - row[i - 1] <= 0) {
-                    return false;
-                }
-            }
-        }
+
         return true;
     }
 
@@ -93,13 +80,7 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean columnValuesIncrease(int[][] t) {
-        for (int i = 0; i < t.length - 1; i++) {
-            for (int j = 0; j < Math.min(t[i].length, t[i + 1].length); j++) {
-                if (t[i][j] - t[i+1][j] >= 0) {
-                    return false;
-                }
-            }
-        }
+
         return true;
     }
 
@@ -110,19 +91,6 @@ public class TableauApp {
      * @return a boolean value
      */
     public static boolean isSetOf1toN(int[][] t) {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int[] row : t) {
-            for (int value : row) {
-                list.add(value);
-            }
-        }
-        Collections.sort(list);
-
-        for (int i = 1; i < list.size(); i++) {
-            if (list.get(i) - list.get(i - 1) != 1) {
-                return false;
-            }
-        }
         return true;
     }
 }
