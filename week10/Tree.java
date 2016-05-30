@@ -1,7 +1,6 @@
 package week10;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -46,7 +45,15 @@ public class Tree<T> {
      * @return the number of the size
      */
     public int size() {
-        return 0;
+        if (rootValue == null) {
+            return 0;
+        } else {
+            int size = 1;
+            for (Tree<T> node : children) {
+                size += node.size();
+            }
+            return size;
+        }
     }
 
     /**
@@ -55,8 +62,13 @@ public class Tree<T> {
      * @return the result
      */
     public int maxDegree() {
-        return 90;
-
+        int degree = children.size();
+        for (Tree<T> node : children) {
+            if (node.maxDegree() > degree) {
+                degree = node.maxDegree();
+            }
+        }
+        return degree;
     }
 
     /**
@@ -93,7 +105,12 @@ public class Tree<T> {
      * @return the result
      */
     public List<T> postOrder() {
-        return new ArrayList<T>();
+        ArrayList<T> list = new ArrayList<>();
+        for (Tree<T> node : children) {
+            list.addAll(node.postOrder());
+        }
+        list.add(rootValue);
+        return list;
     }
 
     /**
@@ -114,7 +131,12 @@ public class Tree<T> {
      * @return the result
      */
     public String toIndentedString() {
-        return "asd";
+        StringBuilder sb = new StringBuilder();
+        ArrayList<String> list = new ArrayList<>();
+        iHelper(0, list, children);
+        sb.append(lvlToIndent(0) + rootValue.toString() + "\n");
+        list.forEach(sb::append);
+        return sb.toString();
 
     }
 
@@ -125,8 +147,16 @@ public class Tree<T> {
      * @param ilist each string will store in this list
      * @param kid   subtree
      */
-    private void iHelper(int lvl, LinkedList<String> ilist, List<Tree<T>> kid) {
-
+    private void iHelper(int lvl, List<String> ilist, List<Tree<T>> kid) {
+        if (kid != null) {
+            lvl++;
+            for (Tree<T> node : kid) {
+                ilist.add(lvlToIndent(lvl)+node.rootValue.toString()+"\n");
+                if (node.children!=null){
+                    iHelper(lvl,ilist,node.children);
+                }
+            }
+        }
     }
 
     /**
@@ -135,8 +165,12 @@ public class Tree<T> {
      * @param level the level that the node on
      * @return the computed spaces
      */
-    private String levelToIndent(int level) {
-        return "asd";
+    private String lvlToIndent(int level) {
+        String blank = "";
+        for(int i=0;i<level;i++){
+            blank+="  ";
+        }
+        return blank;
     }
 
     /**

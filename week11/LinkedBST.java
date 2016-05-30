@@ -81,7 +81,11 @@ public class LinkedBST<T extends Comparable<T>> {
      * @return the height of this tree.
      */
     public int height() {
-return 9;
+        if (left == null || right == null) {
+            return 0;
+        } else {
+            return 1 + Math.max(right.height(), left.height());
+        }
     }
 
     /**
@@ -116,7 +120,7 @@ return 9;
      * @return the size of this BST.
      */
     public int size() {
-return 7;
+        return size(this);
     }
 
     /**
@@ -126,7 +130,11 @@ return 7;
      * @return the size of this BST.
      */
     private int size(LinkedBST<T> node) {
-return 8;
+        if (node == null || node.root == null) {
+            return 0;
+        } else {
+            return 1 + size(node.left) + size(node.right);
+        }
     }
 
     /**
@@ -151,6 +159,15 @@ return 8;
      * @param foundList the list to add the found value.
      */
     private void sizeAbove(LinkedBST<T> node, T low, ArrayList<T> foundList) {
+        if (node == null || node.root == null) {
+            return;
+        }
+        int result = node.root.compareTo(low);
+        if (result >= 0) {
+            foundList.add(node.root);
+        }
+        sizeAbove(node.left, low, foundList);
+        sizeAbove(node.right, low, foundList);
 
     }
 
@@ -176,7 +193,14 @@ return 8;
      * @param foundList the list to add the found value.
      */
     private void sizeBelow(LinkedBST<T> node, T high, ArrayList<T> foundList) {
-
+        if (node == null || node.root == null) {
+            return;
+        }
+        if (node.root.compareTo(high) < 0) {
+            foundList.add(node.root);
+        }
+        sizeBelow(node.left, high, foundList);
+        sizeBelow(node.right, high, foundList);
     }
 
     /**
@@ -193,7 +217,6 @@ return 8;
         ArrayList<T> list = new ArrayList<>();
         sizeBetween(this, low, high, list);
         return list.size();
-
     }
 
     /**
@@ -205,7 +228,12 @@ return 8;
      * @param foundList the list to add the found value.
      */
     private void sizeBetween(LinkedBST<T> node, T low, T high, ArrayList<T> foundList) {
-
+        if (node == null || node.root == null) return;
+        if (node.root.compareTo(low)>0&&node.root.compareTo(high)<0){
+            foundList.add(node.root);
+        }
+        sizeBetween(node.left,low,high,foundList);
+        sizeBetween(node.right,low,high,foundList);
     }
 
     /**

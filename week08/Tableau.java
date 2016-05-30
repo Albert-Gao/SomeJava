@@ -21,7 +21,24 @@ public class Tableau {
      * @param value the value to be added to this tableau.
      */
     public void addValue(Integer value) {
+        if (smallest == null) {
+            smallest = new Cell(value);
+            return;
+        }
 
+        Cell start = smallest;
+        Integer bump = addToRow(start, value);
+
+        while (bump != null) {
+            if (start.below == null) {
+                Cell newBelow = new Cell(value);
+                newBelow.above = start;
+                start.below = newBelow;
+                return;
+            }
+            start = start.below;
+            bump = addToRow(start,bump);
+        }
     }
 
     /**
@@ -36,7 +53,23 @@ public class Tableau {
      * end of the row.
      */
     protected Integer addToRow(Cell curr, int value) {
-return 9;
+        Cell start = curr;
+        while (start != null) {
+            if (start.value > value) {
+                int bump = start.value;
+                start.value = value;
+                return bump;
+            } else {
+                if (start.right != null) {
+                    start = start.right;
+                    continue;
+                }
+                Cell newRight = new Cell(value);
+                addRelation(start, newRight);
+                return null;
+            }
+        }
+        return null;
     }
 
     /**
@@ -45,8 +78,21 @@ return 9;
      * @param curr the cell to start.
      * @param left the cell next to the curr.
      */
-    private void addRelation(Cell curr, Cell left) {
-
+    private void addRelation(Cell curr, Cell right) {
+        curr.right = right;
+        right.left = curr;
+        if (curr.above != null) {
+            if (curr.above.right != null) {
+                right.above = curr.above.right;
+                curr.above.right.below = right;
+            }
+        }
+        if (curr.below != null) {
+            if (curr.below.right != null) {
+                right.below = curr.below.right;
+                curr.below.right.above = right;
+            }
+        }
     }
 
     /**
